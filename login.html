@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | ShoeStore</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Login CSS -->
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+
+    <!-- ================= LOGIN PAGE ================= -->
+
+    <main class="login-page">
+
+        <!-- LEFT SIDE -->
+        <section class="login-brand">
+
+            <a href="index.html" class="brand-logo">
+
+                <div class="brand-icon">
+                    <i class="fa-solid fa-shoe-prints"></i>
+                </div>
+
+                <span>
+                    Shoe<span>Store</span>
+                </span>
+
+            </a>
+
+            <div class="brand-content">
+
+                <span class="brand-label">
+                    WELCOME BACK
+                </span>
+
+                <h1>
+                    Step into your
+                    <span>perfect style.</span>
+                </h1>
+
+                <p>
+                    Sign in to your ShoeStore account and
+                    discover quality footwear made for every step.
+                </p>
+
+                <div class="login-benefits">
+
+                    <div>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Discover quality shoes</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Shop your favorite styles</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Enjoy a simple shopping experience</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT SIDE -->
+        <section class="login-section">
+
+            <div class="login-card">
+
+                <!-- MOBILE LOGO -->
+                <a href="index.html" class="mobile-logo">
+
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-shoe-prints"></i>
+                    </div>
+
+                    <span>
+                        Shoe<span>Store</span>
+                    </span>
+
+                </a>
+
+
+                <div class="login-header">
+
+                    <span class="login-label">
+                        ACCOUNT LOGIN
+                    </span>
+
+                    <h2>
+                        Welcome back!
+                    </h2>
+
+                    <p>
+                        Please enter your details to continue.
+                    </p>
+
+                </div>
+
+
+                <!-- LOGIN FORM -->
+
+                <form id="loginForm">
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <div class="input-box">
+
+                            <i class="fa-regular fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <div class="password-label">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <a href="#" id="forgotPassword">
+                                Forgot password?
+                            </a>
+
+                        </div>
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="passwordToggle"
+                                aria-label="Show password">
+
+                                <i class="fa-regular fa-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- REMEMBER -->
+
+                    <div class="remember-row">
+
+                        <label class="remember">
+
+                            <input
+                                type="checkbox"
+                                id="rememberMe">
+
+                            <span>
+                                Remember me
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- LOGIN BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="login-submit"
+                        id="loginButton">
+
+                        <span>Login</span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+
+                    <!-- MESSAGE -->
+
+                    <p
+                        id="loginMessage"
+                        class="login-message">
+                    </p>
+
+                </form>
+
+
+                <!-- SIGN UP -->
+
+                <div class="signup-section">
+
+                    <span>
+                        Don't have an account?
+                    </span>
+
+                    <a href="#">
+                        Create an account
+                    </a>
+
+                </div>
+
+
+                <!-- BACK HOME -->
+
+                <a href="index.html" class="back-home">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Back to ShoeStore
+
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- LOGIN JAVASCRIPT -->
+
+    <script src="js/login.js"></script>
+
+</body>
+
+</html>

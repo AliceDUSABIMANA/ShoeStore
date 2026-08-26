@@ -1,0 +1,499 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ShoeStore - Admin Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #123024;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #0b5d2a;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo h2 {
+            font-size: 24px;
+        }
+
+        .logo p {
+            font-size: 13px;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin-bottom: 8px;
+        }
+
+        .menu button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            background: transparent;
+            color: white;
+            text-align: left;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .menu button:hover,
+        .menu button.active {
+            background: #16803c;
+        }
+
+        .logout {
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 20px;
+        }
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .main {
+            margin-left: 240px;
+            min-height: 100vh;
+            padding: 25px;
+        }
+
+        .topbar {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .topbar h1 {
+            font-size: 25px;
+        }
+
+        .admin-name {
+            font-weight: bold;
+            color: #16803c;
+        }
+
+        /* =========================
+           STAT CARDS
+        ========================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .card h3 {
+            font-size: 14px;
+            color: #66736c;
+            margin-bottom: 12px;
+        }
+
+        .card .number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0b5d2a;
+        }
+
+        /* =========================
+           CONTENT BOXES
+        ========================= */
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .box h2 {
+            margin-bottom: 18px;
+            font-size: 19px;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5ebe7;
+        }
+
+        th {
+            font-size: 14px;
+            color: #66736c;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .status {
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 12px;
+            background: #eaf7ef;
+            color: #0b5d2a;
+        }
+
+        /* =========================
+           QUICK ACTIONS
+        ========================= */
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 12px;
+            border: none;
+            background: #16803c;
+            color: white;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .action-btn:hover {
+            background: #0b5d2a;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>👟 ShoeStore</h2>
+            <p>Admin Panel</p>
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <button class="active" onclick="showSection('dashboard')">
+                    📊 Dashboard
+                </button>
+            </li>
+
+            <li>
+                <button onclick="showSection('products')">
+                    👟 Products
+                </button>
+            </li>
+
+            <li>
+                <button onclick="showSection('orders')">
+                    📦 Orders
+                </button>
+            </li>
+
+            <li>
+                <button onclick="showSection('customers')">
+                    👤 Customers
+                </button>
+            </li>
+
+            <li>
+                <button onclick="showSection('deliverymen')">
+                    🚚 Deliverymen
+                </button>
+            </li>
+
+            <li>
+                <button onclick="showSection('tracking')">
+                    📍 Delivery Tracking
+                </button>
+            </li>
+
+            <li class="logout">
+                <button onclick="logout()">
+                    🚪 Logout
+                </button>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p>Manage your ShoeStore</p>
+            </div>
+
+            <div>
+                Welcome,
+                <span class="admin-name">Admin</span>
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             STATISTICS
+        ========================== -->
+
+        <section class="stats">
+
+            <div class="card">
+                <h3>Total Products</h3>
+                <div class="number" id="totalProducts">0</div>
+            </div>
+
+            <div class="card">
+                <h3>Total Customers</h3>
+                <div class="number" id="totalCustomers">0</div>
+            </div>
+
+            <div class="card">
+                <h3>Total Orders</h3>
+                <div class="number" id="totalOrders">0</div>
+            </div>
+
+            <div class="card">
+                <h3>Total Sales</h3>
+                <div class="number" id="totalSales">0 RWF</div>
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CONTENT
+        ========================== -->
+
+        <div class="content-grid">
+
+            <div class="box">
+
+                <h2>Recent Orders</h2>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="ordersTable">
+
+                        <tr>
+                            <td colspan="4">
+                                No orders available yet.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="box">
+
+                <h2>Quick Actions</h2>
+
+                <div class="actions">
+
+                    <button
+                        class="action-btn"
+                        onclick="showSection('products')">
+                        ➕ Add Product
+                    </button>
+
+                    <button
+                        class="action-btn"
+                        onclick="showSection('orders')">
+                        📦 View Orders
+                    </button>
+
+                    <button
+                        class="action-btn"
+                        onclick="showSection('deliverymen')">
+                        🚚 Manage Deliverymen
+                    </button>
+
+                    <button
+                        class="action-btn"
+                        onclick="showSection('tracking')">
+                        📍 View Deliveries
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        function showSection(section) {
+
+            console.log("Selected section:", section);
+
+            if (section === "dashboard") {
+                alert("You are already on the Dashboard.");
+            }
+
+            if (section === "products") {
+                alert("Products section will be connected next.");
+            }
+
+            if (section === "orders") {
+                alert("Orders section will be connected next.");
+            }
+
+            if (section === "customers") {
+                alert("Customers section will be connected next.");
+            }
+
+            if (section === "deliverymen") {
+                alert("Deliverymen section will be connected next.");
+            }
+
+            if (section === "tracking") {
+                alert("Delivery tracking will be connected next.");
+            }
+        }
+
+
+        function logout() {
+
+            const confirmLogout =
+                confirm("Are you sure you want to logout?");
+
+            if (confirmLogout) {
+
+                window.location.href = "login.html";
+
+            }
+        }
+
+
+        // Temporary dashboard values.
+        // We will replace these with database data next.
+
+        document.getElementById("totalProducts").textContent = "3";
+
+    </script>
+
+</body>
+</html>
