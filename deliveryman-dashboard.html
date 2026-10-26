@@ -1,0 +1,953 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>ShoeStore - Deliveryman Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="css/deliveryman-dashboard.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     SIDEBAR
+================================================== -->
+
+```html
+<!-- ==================================================
+     SIDEBAR
+================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <h2>👟 ShoeStore</h2>
+
+        <p>Deliveryman Panel</p>
+
+    </div>
+
+
+    <nav>
+
+        <ul class="menu">
+
+            <li>
+                <button
+                    type="button"
+                    class="menu-btn active"
+                    data-section="dashboard"
+                    onclick="openDeliverymanSection('dashboard')">
+
+                    📊 Dashboard
+
+                </button>
+            </li>
+
+
+            <li>
+                <button
+                    type="button"
+                    class="menu-btn"
+                    data-section="deliveries"
+                    onclick="openDeliverymanSection('deliveries')">
+
+                    🚚 My Deliveries
+
+                </button>
+            </li>
+
+
+            <li>
+                <button
+                    type="button"
+                    class="menu-btn"
+                    data-section="delivery-details"
+                    onclick="openDeliverymanSection('delivery-details')">
+
+                    📦 Delivery Details
+
+                </button>
+            </li>
+
+
+            <li>
+                <button
+                    type="button"
+                    class="menu-btn"
+                    data-section="tracking"
+                    onclick="openDeliverymanSection('tracking')">
+
+                    📍 Map / Tracking
+
+                </button>
+            </li>
+
+
+            <li>
+                <button
+                    type="button"
+                    class="menu-btn"
+                    data-section="history"
+                    onclick="openDeliverymanSection('history')">
+
+                    🕘 Delivery History
+
+                </button>
+            </li>
+
+
+            <li>
+                <button
+                    type="button"
+                    class="menu-btn"
+                    data-section="profile"
+                    onclick="openDeliverymanSection('profile')">
+
+                    👤 Profile
+
+                </button>
+            </li>
+
+
+            <li class="logout">
+
+                <button
+                    type="button"
+                    class="logout-btn"
+                    id="logoutBtn">
+
+                    🚪 Logout
+
+                </button>
+
+            </li>
+
+        </ul>
+
+    </nav>
+
+</aside>
+```
+
+
+<!-- ==================================================
+     MAIN CONTENT
+================================================== -->
+
+<main class="main-content">
+
+
+<!-- ==================================================
+     TOP BAR
+================================================== -->
+
+<header class="topbar">
+
+    <div>
+
+        <h1 id="pageTitle">
+            Deliveryman Dashboard
+        </h1>
+
+        <p id="pageDescription">
+            Manage your deliveries and delivery activity
+        </p>
+
+    </div>
+
+
+    <div class="deliveryman-info">
+
+        Welcome,
+
+        <strong id="deliverymanName">
+            Deliveryman
+        </strong>
+
+    </div>
+
+</header>
+
+
+
+<!-- ==================================================
+     DASHBOARD
+================================================== -->
+
+<section
+    id="dashboard"
+    class="dashboard-section">
+
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Dashboard Overview
+            </h2>
+
+            <p>
+                Monitor your assigned deliveries and delivery activity.
+            </p>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="secondary-btn"
+            id="dashboardRefresh">
+
+            🔄 Refresh
+
+        </button>
+
+    </div>
+
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats-grid">
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🚚
+            </div>
+
+            <div>
+
+                <h3>
+                    Assigned
+                </h3>
+
+                <p id="assignedCount">
+                    0
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🛵
+            </div>
+
+            <div>
+
+                <h3>
+                    On The Way
+                </h3>
+
+                <p id="onTheWayCount">
+                    0
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📦
+            </div>
+
+            <div>
+
+                <h3>
+                    Delivered
+                </h3>
+
+                <p id="deliveredCount">
+                    0
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📍
+            </div>
+
+            <div>
+
+                <h3>
+                    GPS Status
+                </h3>
+
+                <p
+                    id="gpsSummary"
+                    class="gps-text">
+
+                    Offline
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- DASHBOARD GRID -->
+
+    <div class="dashboard-grid">
+
+
+        <!-- ACTIVE DELIVERIES -->
+
+        <div class="dashboard-card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        My Active Deliveries
+                    </h2>
+
+                    <p>
+                        Deliveries currently assigned to you
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="small-btn"
+                    data-section="deliveries">
+
+                    View All
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="dashboardDeliveries"
+                class="mini-deliveries">
+
+                <div class="empty-message">
+                    Loading deliveries...
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="dashboard-card">
+
+
+            <div class="card-header">
+
+                <h2>
+                    Quick Actions
+                </h2>
+
+            </div>
+
+
+            <div class="quick-actions">
+
+
+                <button
+                    type="button"
+                    class="action-btn"
+                    data-section="deliveries">
+
+                    🚚 My Deliveries
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="action-btn"
+                    data-section="tracking">
+
+                    📍 Map / GPS Tracking
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="action-btn"
+                    data-section="history">
+
+                    🕘 Delivery History
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="action-btn"
+                    data-section="profile">
+
+                    👤 My Profile
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ==================================================
+     MY DELIVERIES
+================================================== -->
+
+<section
+    id="deliveries"
+    class="page-section hidden">
+
+
+    <div class="section-title">
+
+
+        <div>
+
+            <h2>
+                My Deliveries
+            </h2>
+
+            <p>
+                View and manage deliveries assigned to you.
+            </p>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="secondary-btn"
+            id="refreshButton">
+
+            🔄 Refresh
+
+        </button>
+
+
+    </div>
+
+
+
+    <div
+        id="deliveriesList"
+        class="deliveries-grid">
+
+        <div class="loading">
+            Loading deliveries...
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ==================================================
+     DELIVERY DETAILS
+================================================== -->
+
+<section
+    id="delivery-details"
+    class="page-section hidden">
+
+
+    <div class="section-title">
+
+
+        <div>
+
+            <h2>
+                Delivery Details
+            </h2>
+
+            <p>
+                View information about your selected delivery.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div
+        id="deliveryDetailsCard"
+        class="details-panel">
+
+
+        <div class="empty-message">
+
+            <h3>
+                No delivery selected
+            </h3>
+
+            <p>
+                Select a delivery from My Deliveries.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ==================================================
+     TRACKING
+================================================== -->
+
+<section
+    id="tracking"
+    class="page-section hidden">
+
+
+    <div class="section-title">
+
+
+        <div>
+
+            <h2>
+                Map / Tracking
+            </h2>
+
+            <p>
+                Share your current location while delivering an order.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- SELECTED DELIVERY -->
+
+    <div
+        id="trackingDeliveryInfo"
+        class="tracking-delivery-info hidden">
+
+        <h3>
+            Active Delivery
+        </h3>
+
+        <p id="trackingDeliveryText">
+            No delivery selected.
+        </p>
+
+    </div>
+
+
+
+    <div class="tracking-layout">
+
+
+        <!-- GPS CONTROL -->
+
+        <div class="location-card">
+
+
+            <div class="location-header">
+
+
+                <div
+                    class="location-icon"
+                    id="locationIndicator">
+
+                    📍
+
+                </div>
+
+
+                <div>
+
+                    <h3 id="locationStatus">
+                        Location Not Started
+                    </h3>
+
+
+                    <p id="locationMessage">
+                        Start location sharing when you begin a delivery.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- COORDINATES -->
+
+            <div class="coordinates">
+
+
+                <div class="coordinate-box">
+
+                    <span>
+                        Latitude
+                    </span>
+
+                    <strong id="latitude">
+                        —
+                    </strong>
+
+                </div>
+
+
+
+                <div class="coordinate-box">
+
+                    <span>
+                        Longitude
+                    </span>
+
+                    <strong id="longitude">
+                        —
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- START GPS -->
+
+            <button
+                type="button"
+                id="locationButton"
+                class="primary-btn">
+
+                📍 Start Location Sharing
+
+            </button>
+
+
+
+            <!-- STOP GPS -->
+
+            <button
+                type="button"
+                id="stopLocationButton"
+                class="danger-btn hidden">
+
+                ⏹ Stop Location Sharing
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- MAP -->
+
+        <div class="map-container">
+
+
+            <div
+                id="deliveryMap"
+                class="map-placeholder">
+
+
+                <div class="map-icon">
+                    📍
+                </div>
+
+
+                <h3>
+                    Delivery Map
+                </h3>
+
+
+                <p id="mapMessage">
+                    Your current delivery location will appear here.
+                </p>
+
+
+                <button
+                    type="button"
+                    class="map-button"
+                    id="openGoogleMapsBtn">
+
+                    🗺️ Open Google Maps
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ==================================================
+     DELIVERY HISTORY
+================================================== -->
+
+<section
+    id="history"
+    class="page-section hidden">
+
+
+    <div class="section-title">
+
+
+        <div>
+
+            <h2>
+                Delivery History
+            </h2>
+
+            <p>
+                View deliveries you have completed.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div
+        id="historyList"
+        class="history-container">
+
+        <div class="empty-message">
+            Loading history...
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ==================================================
+     PROFILE
+================================================== -->
+
+<section
+    id="profile"
+    class="page-section hidden">
+
+
+    <div class="section-title">
+
+
+        <div>
+
+            <h2>
+                My Profile
+            </h2>
+
+            <p>
+                View your deliveryman account information.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="profile-card">
+
+
+        <div class="profile-avatar">
+            🚚
+        </div>
+
+
+
+        <div class="profile-details">
+
+
+            <h3 id="profileName">
+                Deliveryman
+            </h3>
+
+
+            <p id="profileEmail">
+                —
+            </p>
+
+
+            <span class="role-badge">
+                Deliveryman
+            </span>
+
+
+        </div>
+
+
+
+        <div class="profile-information">
+
+
+            <div class="profile-row">
+
+                <span>
+                    First Name
+                </span>
+
+                <strong id="profileFirstName">
+                    —
+                </strong>
+
+            </div>
+
+
+
+            <div class="profile-row">
+
+                <span>
+                    Last Name
+                </span>
+
+                <strong id="profileLastName">
+                    —
+                </strong>
+
+            </div>
+
+
+
+            <div class="profile-row">
+
+                <span>
+                    Email
+                </span>
+
+                <strong id="profileEmailRow">
+                    —
+                </strong>
+
+            </div>
+
+
+
+            <div class="profile-row">
+
+                <span>
+                    Phone
+                </span>
+
+                <strong id="profilePhone">
+                    —
+                </strong>
+
+            </div>
+
+
+
+            <div class="profile-row">
+
+                <span>
+                    Role
+                </span>
+
+                <strong>
+                    Deliveryman
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+</main>
+
+
+
+<!-- ==================================================
+     JAVASCRIPT
+================================================== -->
+
+<script src="js/deliveryman-dashboard.js"></script>
+
+
+</body>
+
+</html>

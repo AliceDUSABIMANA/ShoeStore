@@ -1,0 +1,17 @@
+ printf '%s\n' \
+'# Private credentials' \
+'.env' \
+'.env.*' \
+'!.env.example' \
+'' \
+'# Dependencies' \
+'**/node_modules/' \
+'' \
+'# Build files' \
+'**/dist/' \
+'' \
+'# Logs' \
+'*.log' \
+'' \
+'# Temporary payment test' \
+'backend/test-mtn-user.js' > .gitignore

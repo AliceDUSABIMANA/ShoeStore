@@ -1,95 +1,204 @@
-// ================================
-// REAL BACKEND LOGIN
-// ================================
+ // =====================================================
+// SHOE STORE LOGIN
+// =====================================================
 
-fetch("http://localhost:5000/api/auth/login", {
-    method: "POST",
+const loginForm = document.getElementById("loginForm");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const loginButton = document.getElementById("loginButton");
+const loginMessage = document.getElementById("loginMessage");
 
-    headers: {
-        "Content-Type": "application/json"
-    },
+// =====================================================
+// SHOW MESSAGE
+// =====================================================
 
-    body: JSON.stringify({
-        email: email,
-        password: password
-    })
-})
-.then(async function (response) {
+function showMessage(message, type) {
+    loginMessage.textContent = message;
+    loginMessage.className = "login-message " + type;
+}
 
-    const data = await response.json();
+// =====================================================
+// LOGIN FORM
+// =====================================================
 
-    if (!response.ok || !data.success) {
-        throw new Error(
-            data.message || "Login failed."
-        );
+loginForm.addEventListener("submit", async function (event) {
+
+    event.preventDefault();
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    // =================================================
+    // VALIDATION
+    // =================================================
+
+    if (!email) {
+        showMessage("Please enter your email.", "error");
+        return;
     }
 
-    return data;
-})
-.then(function (data) {
+    if (!password) {
+        showMessage("Please enter your password.", "error");
+        return;
+    }
 
-    console.log("Login response:", data);
+    // =================================================
+    // DISABLE BUTTON
+    // =================================================
 
-    // Save the logged-in user
-    localStorage.setItem(
-        "shoeStoreUser",
-        JSON.stringify(data.user)
-    );
-
-    // Show success
-    showMessage(
-        "Login successful! Welcome to ShoeStore.",
-        "success"
-    );
+    loginButton.disabled = true;
 
     loginButton.innerHTML =
-        '<span>Login Successful</span>' +
-        '<i class="fa-solid fa-check"></i>';
+        '<span>Logging in...</span>' +
+        '<i class="fa-solid fa-spinner fa-spin"></i>';
 
-    // ================================
-    // REDIRECT BY ROLE
-    // ================================
+    try {
 
-    setTimeout(function () {
+        // =================================================
+        // SEND LOGIN REQUEST
+        // =================================================
 
-        if (data.user.role === "admin") {
+        const response = await fetch(
+            "http://127.0.0.1:5000/api/auth/login",
+            {
+                method: "POST",
 
-            window.location.href = "admin-dashboard.html";
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
 
-        } else if (data.user.role === "customer") {
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            }
+        );
 
-            window.location.href = "index.html";
+        // =================================================
+        // READ RESPONSE AS TEXT FIRST
+        // =================================================
+        // This prevents:
+        // Unexpected token '<'
 
-        } else if (data.user.role === "deliveryman") {
+        const responseText = await response.text();
 
-            window.location.href = "deliveryman-dashboard.html";
+        console.log("Login HTTP status:", response.status);
+        console.log("Login response:", responseText);
 
-        } else {
+        let data;
 
-            showMessage(
-                "Unknown user role.",
-                "error"
+        try {
+            data = JSON.parse(responseText);
+        } catch (jsonError) {
+
+            console.error(
+                "Server returned non-JSON:",
+                responseText
             );
 
-            loginButton.disabled = false;
+            throw new Error(
+                "The login server returned HTML instead of JSON. " +
+                "Please make sure the ShoeStore backend is running on port 5000."
+            );
         }
 
-    }, 800);
+        // =================================================
+        // CHECK RESPONSE
+        // =================================================
 
-})
-.catch(function (error) {
+        if (!response.ok || !data.success) {
 
-    console.error("Login error:", error);
+            throw new Error(
+                data.message ||
+                "Invalid email or password."
+            );
+        }
 
-    showMessage(
-        error.message || "Unable to connect to the server.",
-        "error"
-    );
+        // =================================================
+        // CHECK USER
+        // =================================================
 
-    loginButton.disabled = false;
+        if (!data.user) {
 
-    loginButton.innerHTML =
-        '<span>Login</span>' +
-        '<i class="fa-solid fa-arrow-right"></i>';
+            throw new Error(
+                "Login succeeded but no user information was returned."
+            );
+        }
 
+        // =================================================
+        // SAVE USER
+        // =================================================
+
+        localStorage.setItem(
+            "shoeStoreUser",
+            JSON.stringify(data.user)
+        );
+
+        // =================================================
+        // SUCCESS
+        // =================================================
+
+        showMessage(
+            "Login successful! Welcome to ShoeStore.",
+            "success"
+        );
+
+        loginButton.innerHTML =
+            '<span>Login Successful</span>' +
+            '<i class="fa-solid fa-check"></i>';
+
+        // =================================================
+        // REDIRECT BY ROLE
+        // =================================================
+
+        setTimeout(function () {
+
+            if (data.user.role === "admin") {
+
+                window.location.href =
+                    "admin-dashboard.html";
+
+            } else if (data.user.role === "customer") {
+
+                window.location.href =
+                    "customer-dashboard.html";
+
+            } else if (data.user.role === "deliveryman") {
+
+                window.location.href =
+                    "deliveryman-dashboard.html";
+
+            } else {
+
+                showMessage(
+                    "Unknown user role: " + data.user.role,
+                    "error"
+                );
+
+                loginButton.disabled = false;
+
+                loginButton.innerHTML =
+                    '<span>Login</span>' +
+                    '<i class="fa-solid fa-arrow-right"></i>';
+            }
+
+        }, 800);
+
+    } catch (error) {
+
+        console.error("Login error:", error);
+
+        showMessage(
+            error.message ||
+            "Unable to connect to the server.",
+            "error"
+        );
+
+        loginButton.disabled = false;
+
+        loginButton.innerHTML =
+            '<span>Login</span>' +
+            '<i class="fa-solid fa-arrow-right"></i>';
+    }
 });
